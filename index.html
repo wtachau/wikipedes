@@ -4,7 +4,6 @@
 		<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
-
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
@@ -14,6 +13,13 @@
 		<!-- Custom styling -->
 		<link rel="stylesheet" href="./style.css">
 
+		<!-- Custom JavaScript -->
+		<script src="main.js"></script>
+
+		<!-- Selectize -->
+		<script type="text/javascript" src="selectize/selectize.js"></script>
+		<link rel="stylesheet" type="text/css" href="selectize/selectize.bootstrap3.css" />
+
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
@@ -22,15 +28,73 @@
 
 	<body>
 		<div class="container entry_form">
-			<form>
+			<form action='/'>
 				<div class="form-group">
 					<label for="exampleInputEmail1">enter a Wikipedia subject:</label>
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="anything in the world">
+					<select type="text" class="form-control" id="subject1" placeholder="anything in the world"></select>
 				</div>
 				<div class="form-group">
 					<label for="exampleInputPassword1">and another:</label>
-					<input type="text" class="form-control" id="exampleInputPassword1" placeholder="anything else">
+					<select type="text" class="form-control" id="subject2" placeholder="anything else"></select>
 				</div>
+				<script>
+				// <select id="select-repo"></select>
+				$('select').selectize({
+					valueField: 'text',
+					labelField: 'text',
+					searchField: 'link',
+					options: [],
+					create: false,
+					render: {
+						option: function(item, escape) {
+							console.log(item);
+
+							return '<div class="suggestion">'+
+										'<div class="text"><b>' + item.text + '</b></div>' + 
+										'<div class="link"><i>' + item.link + '</i></div>' + 
+										'<div class="desc">' + item.desc + '</div>' +
+									'</div>';
+						}
+					},
+					load: function(query, callback) {
+						if (!query.length) return callback();
+						$.ajax({
+							url: 'http://en.wikipedia.org/w/api.php',
+				            type: 'GET',
+				            dataType: 'jsonp',
+				            data: {
+				                format: 'json',
+				                action: 'opensearch',
+				                search: query
+				            },
+							error: function() {
+								callback();
+							},
+							success: function(res) {
+
+								var suggestions = []
+								for (var i = 0; i < 10; i++) {
+									var suggestion = {}
+									// text
+									suggestion['text'] = res[1][i]; 
+									// desc (truncate if necessary)
+									var desc = res[2][i];
+									var length = 125;
+									if (desc && desc.length > length) {
+										suggestion['desc'] = desc.substring(0, length-3) + "...";
+									} else {
+										suggestion['desc'] = desc;
+									}
+									// link
+									suggestion['link'] = res[3][i];
+									suggestions.push(suggestion);
+								}
+								callback(suggestions);
+							}
+						});
+					}
+				});
+				</script>
 				<button type="submit" class="btn btn-default">find a path!</button>
 			</form>
 		</div>
