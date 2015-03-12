@@ -1,0 +1,22 @@
+extends layout
+
+block content
+	nav.navbar.navbar-default
+		div.container-fluid
+			div.navbar-header 
+				h1 Wikipedes of Separation			
+	div.container.entry_form
+		form(action='/path' method='post')
+			div.form-group
+				select(type="text" class="form-control" id="subject1" placeholder="enter a Wikipedia subject:")
+			div.path_links
+
+			div.form-group
+				select(type="text" class="form-control" id="subject2" placeholder="and another:")
+
+			script(src='javascripts/applySelectize.js')
+			button(type="submit" class="btn btn-default") find a path!
+		button(class="btn btn-default start_over" style='display:none') start over
+	nav.navbar.navbar-default.navbar-fixed-bottom
+		div.container.name_label made by 
+			a(href='http://willtachau.com') willtachau.com

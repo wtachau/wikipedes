@@ -1,0 +1,34 @@
+body {
+	padding-bottom: 70px;
+}
+
+.navbar {
+	text-align: center;
+}
+
+.navbar .container-fluid {
+	display: inline-block;
+}
+
+.entry_form {
+	margin-top: 200px;
+	text-align: center;
+	width: 50% !important;
+}
+.navbar-fixed-bottom {
+	text-align: center;
+}
+.name_label {
+	margin-top: 15px;
+}
+
+.path_links img {
+	height: 50px;
+	margin: -5px 0px 10px 0px;
+}
+.panel {
+	margin-bottom: 10px !important;
+}
+.panel-body {
+  padding: 5px !important;
+}
