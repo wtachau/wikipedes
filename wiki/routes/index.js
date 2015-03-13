@@ -38,7 +38,13 @@ router.post('/text', function(req, res, next) {
 	request({uri: req.body['fromLink']}, function(err, response, body){
 		var shortLink = req.body['targetLink'].replace("http://en.wikipedia.org","");
 		var linkIndex = body.indexOf('<a href="'+shortLink);
-		res.json({	"text": body.substr(linkIndex - 300, 600),
+
+		var length = 800;
+		// "Crop" only a section of the html body
+		var bodyText = body.substr(linkIndex - length/2, length);
+		// Prune all text before a leading > (i.e. the tail end of an html element)
+		bodyText = bodyText.substring( bodyText.indexOf(">") + 1, bodyText.length);
+		res.json({	"text": bodyText,
 					"element": req.body['element']	})
 	});
 });
