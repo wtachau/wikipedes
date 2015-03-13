@@ -38,7 +38,7 @@ router.post('/text', function(req, res, next) {
 	request({uri: req.body['fromLink']}, function(err, response, body){
 		var shortLink = req.body['targetLink'].replace("http://en.wikipedia.org","");
 		var linkIndex = body.indexOf('<a href="'+shortLink);
-		res.json({	"text": body.substr(linkIndex - 100, 260),
+		res.json({	"text": body.substr(linkIndex - 300, 600),
 					"element": req.body['element']	})
 	});
 });

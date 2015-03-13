@@ -13,6 +13,8 @@ jQuery(function($) {
 		$('.entry_form').animate({ marginTop: '180px'}, 400);
 		$(".path_links").html('<img src="images/spin.gif">');
 		$('button[type="submit"]').attr('disabled', true);
+		$('select')[0].selectize.disable()
+		$('select')[1].selectize.disable()
 		$.ajax(
 		{
 		    url : formURL,
@@ -31,13 +33,15 @@ jQuery(function($) {
 
 				for (index in data) {
 					var linkID = "#link"+index;
-					var body = (index < data.length - 1) ? '<div class="panel-body"></div>' : '';
+					var body = (index < data.length - 1) ? '<div style="display:none;" class="panel-body"></div>' : '';
+					var show_link = (index < data.length - 1) ? '<div class="how_link">show</div>' : '';
 					$(".path_links").append(' <div id="link'+index+'">' + 
 							' <div class="panel panel-default">'+
 								'<div class="panel-heading">'+
 									'<a target="blank" href="'+data[index]['link'] + '"' +
 								    	' <h3 class="panel-title">'+ data[index]['name']+'</h3>'+
 								    '</a>'+
+								    show_link +
 								'</div>'+
 								body +
 							'</div> ' + 
@@ -77,7 +81,14 @@ jQuery(function($) {
 		$(".path_links").html("");
 		$('.entry_form').animate({ marginTop: '200px'}, 500);
 		$("select")[0].selectize.clear();
+		$("select")[0].selectize.enable();
 		$("select")[1].selectize.clear();
+		$("select")[1].selectize.enable();
+	});
+
+	$(document).on('click', '.how_link', function() {
+		var id = $(this).parent().parent().parent().attr('id');
+		$('#'+id+' .panel-body').slideToggle()
 	});
 
 });
