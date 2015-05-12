@@ -27,7 +27,7 @@ router.post('/path', function(req, res, next) {
 	    if(err) {
 			console.log(err);
 			function puts(error, stdout, stderr) { sys.puts(stdout) };
-			exec("/home/ubuntu/neo4j-community-2.1.7/bin/neo4j start", puts);
+			exec("sudo /home/ubuntu/neo4j-community-2.1.7/bin/neo4j start", puts);
 	    } else {
 			results = []
 			for (index in result.data[0]) {
