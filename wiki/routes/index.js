@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var neo4j = require('node-neo4j');
 var request = require('request');
+// For executing shell commands
+var sys = require('sys');
+var exec = require('child_process').exec;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -21,7 +24,11 @@ router.post('/path', function(req, res, next) {
 	console.log(query);
 
 	db.cypherQuery(query, function(err, result){
-	    if(err) throw err;
+	    if(err) {
+		console.log(err);
+		function puts(error, stdout, stderr) { sys.puts(stdout) };
+		exec("ls -la", puts);
+	    }
 
 	    results = []
 	    for (index in result.data[0]) {
