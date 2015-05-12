@@ -25,19 +25,19 @@ router.post('/path', function(req, res, next) {
 
 	db.cypherQuery(query, function(err, result){
 	    if(err) {
-		console.log(err);
-		function puts(error, stdout, stderr) { sys.puts(stdout) };
-		exec("ls -la", puts);
-	    }
-
-	    results = []
-	    for (index in result.data[0]) {
-	    	var name = result.data[0][index].data.title;
-	    	results.push({	"name": name,
-	    					"link": "http://en.wikipedia.org/wiki/" + name.split(" ").join("_") });
-	    }
-	    console.log(results);
-	    res.json(results);
+			console.log(err);
+			function puts(error, stdout, stderr) { sys.puts(stdout) };
+			exec("ls -la", puts);
+	    } else {
+			results = []
+			for (index in result.data[0]) {
+				var name = result.data[0][index].data.title;
+				results.push({	"name": name,
+								"link": "http://en.wikipedia.org/wiki/" + name.split(" ").join("_") });
+			}
+			console.log(results);
+			res.json(results);
+		}
 	});
 });
 
