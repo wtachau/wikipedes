@@ -1,0 +1,6 @@
+.DS_Store
+../.DS_Store
+../graphipedia/
+../npm-debug.log
+../push_to_prod.sh
+../wiki.pem
